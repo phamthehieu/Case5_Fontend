@@ -59,7 +59,7 @@ export default function Login() {
                     </button>
                 </Form>
             </Formik>
-            <hr/>
+           
             <Link to={'register'} type="submit" className="ml-0 btn btn-primary" style={{
                 backgroundColor: "rgb(35,116,225)",
                 borderRadius: '10px',
