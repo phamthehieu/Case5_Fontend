@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {loginUser, profileUser} from "../../service/usersService";
 const initialState = {
     users: JSON.parse(localStorage.getItem('users')),
-    user: {}
+    profile: {}
 }
 const userSlice = createSlice({
     name: 'users',
@@ -14,7 +14,7 @@ const userSlice = createSlice({
             localStorage.setItem('token', JSON.stringify(action.payload.token))
         })
         builder.addCase(profileUser.fulfilled,(state, action) => {
-            state.user = action.payload
+            state.profile = action.payload
         })
     }
 })

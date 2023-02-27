@@ -7,17 +7,17 @@ import {profileUser} from "../service/usersService";
 export default function Menu() {
     const dispatch = useDispatch()
     const id = useSelector(state => {
-        return state.users.users.idUser;
+        return  state.users.users.idUser;
     })
     useEffect(() => {
         dispatch(profileUser(id))
     },[])
     const users = useSelector(state => {
-        return state.users.user.user;
+        return  state.users.profile.user;
     })
     return (
         <>
-            <div className="row" style={{marginTop: '20px',backgroundColor: "rgb(255,255,255)", borderRadius: '10px', height: '70vh'}}>
+            <div className="row" style={{marginTop: '20px'}}>
                 <div className="col-12" >
                     <Link  style={{textDecoration: 'none'}}>
                         <div className="row" style={{marginTop: '20px'}}>

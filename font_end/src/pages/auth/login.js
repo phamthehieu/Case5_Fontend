@@ -10,7 +10,7 @@ export default function Login() {
     const handleLogin = async (values) => {
         await dispatch(loginUser(values)).then( (check) => {
             if (check.payload === 'User not found') {
-                swal('Tài khoản không tồn tại')
+
                 navigate('/')
             } else if (check.payload === 'User is already locked') {
                 swal('Tài khoản của bạn đã bị khóa')

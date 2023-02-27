@@ -6,10 +6,19 @@ import {editPassword, editProfile, loginUser, profileUser} from "../../service/u
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import {storage} from "../auth/fileBaseConfig";
-import {isRejected} from "@reduxjs/toolkit";
-import * as events from "events";
 import swal from "sweetalert";
+import * as Yup from "yup";
 
+const SignupSchema = Yup.object().shape({
+    newPassword: Yup.string()
+        .min(8, 'Quá Yếu!')
+        .max(70, 'Quá Dài!')
+        .required('Không được để trống'),
+    oldPassword: Yup.string()
+        .min(8, 'Quá Yếu!')
+        .max(70, 'Quá Dài!')
+        .required('Không được để trống'),
+});
 export default function Profile() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -17,8 +26,8 @@ export default function Profile() {
     const [url, setUrl] = useState("");
     const [percent, setPercent] = useState(0);
     let user = useSelector(state => {
-        if (state.users.user.user !== undefined)
-            return state.users.user.user;
+        if (state.users.profile.user !== undefined)
+            return state.users.profile.user;
         return {
             userName: '',
             fullName: '',
@@ -62,8 +71,13 @@ export default function Profile() {
             newPassword: events.newPassword,
             idUser: events.idUser
         }
-        await dispatch(editPassword(data))
-        window.location.reload()
+        await dispatch(editPassword(data)).then((check) => {
+            if (check.payload === 'wrong password') {
+                swal('Mật khẩu cũ không chính xác')
+            } else {
+                swal('Đổi mật khẩu thành công')
+            }
+        })
     }
     return (
         <>
@@ -80,14 +94,14 @@ export default function Profile() {
                     <div className="row">
                         <div className="col-3" style={{textAlign: 'right', marginTop: '20px', height: '200px'}}>
                             <img
-                                src={user.image}
+                                src={user !== undefined && user.image}
                                 alt="" style={{width: "168px", borderRadius: '100%'}}/>
                         </div>
                         <div className="col-9" style={{marginTop: '49px', marginLeft: '0px'}}>
                             <div className="row">
                                 <div className="col-6">
                                     <h1 style={{fontWeight: '700'}}>{user !== undefined && user.fullName}</h1>
-                                    <p>{user.birthDay}</p>
+                                    <p>{user !== undefined && user.birthDay}</p>
                                 </div>
                                 <div className="col-6" style={{marginTop: '15px'}}>
                                     <button type="button" className="btn btn-primary" data-toggle="modal"
@@ -183,7 +197,7 @@ export default function Profile() {
                                         </svg>
                                         mật khẩu
                                     </button>
-                                    <Formik initialValues={{oldPassword: '',newPassword: '', idUser: id}}   enableReinitialize={true} onSubmit={ events => {
+                                    <Formik initialValues={{oldPassword: '',newPassword: '', idUser: id}}  validationSchema={SignupSchema} enableReinitialize={true} onSubmit={ events => {
                                         handlePassword(events).then()
                                     }}>
                                         <Form>
@@ -208,6 +222,7 @@ export default function Profile() {
                                                                     <Field type="text" className="form-control"
                                                                            name={'oldPassword'}
                                                                            style={{borderRadius: '10px'}}/>
+                                                                    <div style={{color: 'red'}} ><ErrorMessage name={'oldPassword'}/></div>
                                                                 </div>
                                                             </div>
                                                             <div className="form-group row">
@@ -218,6 +233,7 @@ export default function Profile() {
                                                                     <Field type="text" className="form-control"
                                                                            name={'newPassword'}
                                                                            style={{borderRadius: '10px'}}/>
+                                                                    <div style={{color: 'red'}} ><ErrorMessage name={'newPassword'}/></div>
                                                                 </div>
                                                             </div>
                                                             <div className="form-group row">

@@ -35,6 +35,6 @@ export const editPassword = createAsyncThunk(
     "users/editPassword",
     async (data) => {
         const res = await customAxios.put('users/password/' + data.idUser, data)
-        return res;
+        return res.data;
     }
 )

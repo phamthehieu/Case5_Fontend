@@ -1,7 +1,7 @@
 import NavBar from "../component/navBar";
 import {Outlet} from "react-router-dom";
 import Menu from "../component/menu";
-import Friends from "../component/friends";
+import Friends from "./friends/friends";
 export default function Home() {
     return (
         <>
@@ -14,7 +14,7 @@ export default function Home() {
                 <div className="col" style={{marginTop: '20px', paddingLeft: '30px'}}>
                    <Menu/>
                 </div>
-                <div className="col-6" style={{textAlign: 'center',marginTop: '20px'}}>
+                <div className="col-7" style={{textAlign: 'center',marginTop: '20px'}}>
                     <div className="col-12">
                         
                     </div>
@@ -23,7 +23,7 @@ export default function Home() {
                     </div>
 
                 </div>
-                <div className="col" style={{marginTop: '20px'}}>
+                <div className="col" style={{marginTop: '50px'}}>
                     <Friends/>
                 </div>
             </div>
