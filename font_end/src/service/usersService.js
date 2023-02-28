@@ -38,3 +38,10 @@ export const editPassword = createAsyncThunk(
         return res.data;
     }
 )
+export const listUser = createAsyncThunk (
+    "users/listUser",
+    async (data) => {
+        const res = await customAxios.get('users/')
+        return res.data;
+    }
+)

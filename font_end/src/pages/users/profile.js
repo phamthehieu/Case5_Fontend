@@ -163,7 +163,7 @@ export default function Profile() {
                                                                        className="form-control avatar"
                                                                        name={'image'}
                                                                        style={{borderRadius: '10px'}}
-                                                                       onChange={handleUpload}/>
+                                                                       onMouseOut={handleUpload}/>
                                                             </div>
                                                             <div className="form-group" style={{textAlign: "center"}}>
                                                                 <img
