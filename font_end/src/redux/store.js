@@ -7,6 +7,5 @@ export const Store = configureStore({
     reducer: {
         users: usersReducer,
         posts: postsReducer,
-
     }
 })
