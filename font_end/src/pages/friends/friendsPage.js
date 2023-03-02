@@ -1,6 +1,9 @@
 import NavBar from "../../component/navBar";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link, Outlet, useParams} from "react-router-dom";
+import {listSendFriends} from "../../service/friendsService";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
 
 export default function FriendsPage() {
     let {id} = useParams()

@@ -5,7 +5,6 @@ export const listFriends = createAsyncThunk (
     'friends/listFriends',
     async (data) => {
         const res = await customAxios.get('friends/'+ data)
-        console.log(res.data)
         return res.data;
     }
 )
@@ -26,7 +25,7 @@ export const sendFriends = createAsyncThunk (
 export const confirmFriends = createAsyncThunk (
     'friends/confirmFriends',
     async (data) => {
-        const res = await customAxios.post('friends/confirm-friends/'+data)
+        const res = await customAxios.post('friends/confirm-friends/',data)
         return res.data;
     }
 )
@@ -47,8 +46,7 @@ export const listReceiveFriends = createAsyncThunk (
 export const removeFriends = createAsyncThunk (
     'friends/removeFriends',
     async (data) => {
-        const res = await customAxios.delete('friends',data)
-        console.log(res.data)
+        const res = await customAxios.delete('friends?idSender='+data.idSender+'&idReceiver='+data.idReceiver)
         return res.data;
     }
 )

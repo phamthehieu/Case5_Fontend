@@ -1,6 +1,6 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {listFriends} from "../../service/friendsService";
+import {listFriends, removeFriends} from "../../service/friendsService";
 import {useEffect} from "react";
 
 export default function ListFriends() {
@@ -9,6 +9,11 @@ export default function ListFriends() {
     const friends = useSelector(state => {
         return state.friends.listFriends
     })
+    const handleRemoveFriends = (idUser, id) => {
+        dispatch(removeFriends({idSender: id, idReceiver: idUser})).then(() => {
+            window.location.reload()
+        })
+    }
     useEffect(() => {
         dispatch(listFriends(id))
     }, [])
@@ -18,8 +23,10 @@ export default function ListFriends() {
                 {friends.map(item => (
                     <div className={'col-2'} style={{marginTop: '20px'}}>
                         <div className="card" style={{width: "13rem", height: "22rem", borderRadius: "10px"}}>
-                            <img src={item !== undefined && item.image} className="card-img-top" alt="..."
-                                 style={{width: '100%', height: '200px', borderRadius: "10px 10px 0px 0px"}}/>
+                            <Link to={'/profile/' + item.idUser}>
+                                <img src={item !== undefined && item.image} className="card-img-top" alt="..."
+                                     style={{width: '100%', height: '200px', borderRadius: "10px 10px 0px 0px"}}/>
+                            </Link>
                             <div className="card-body">
                                 <p className="card-title" style={{fontSize: '15px'}}>
                                     <b>{item !== undefined && item.fullName}</b></p>
@@ -35,7 +42,9 @@ export default function ListFriends() {
                                             d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                                     </svg>
                                     Bạn bè</b></button>
-                                <button className="btn btn-primary" style={{
+                                <button className="btn btn-primary" onClick={() => {
+                                    handleRemoveFriends(item.idUser, id)
+                                }} style={{
                                     textAlign: 'center',
                                     width: '100%',
                                     marginTop: '10px',

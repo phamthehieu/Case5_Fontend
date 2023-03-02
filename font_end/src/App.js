@@ -31,9 +31,9 @@ function App() {
                         <Route path={'profile/:id'} element={<Profile/>}/>
                         <Route path={'friends/:id'} element={<FriendsPage/>}>
                             <Route path={''} element={<ListReceiveFriends/>}/>
-                            <Route path={'list-send-friend/:id'} element={<ListSendFriends/>}/>
-                            <Route path={'list-add-friends/:id'} element={<ListAddFriends/>}/>
-                            <Route path={'list-friends/:id'} element={<ListFriends/>}/>
+                            <Route path={'list-send-friend/:xid'} element={<ListSendFriends/>}/>
+                            <Route path={'list-add-friends/:xid'} element={<ListAddFriends/>}/>
+                            <Route path={'list-friends/:xid'} element={<ListFriends/>}/>
                         </Route>
                     </>
                     :

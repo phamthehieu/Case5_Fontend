@@ -1,7 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
 import customAxios from "./api";
-import {date} from "yup";
 
 export const loginUser = createAsyncThunk(
     'auth/login',
@@ -43,5 +41,12 @@ export const listUser = createAsyncThunk (
     async (data) => {
         const res = await customAxios.get('users/')
         return res.data;
+    }
+)
+export const getProfileUser = createAsyncThunk (
+    'user/getProfileUser',
+    async (data) => {
+        const res = await customAxios.get('users/profileUser?idUser='+data.idUser+'&id='+data.id)
+        return res.data
     }
 )
