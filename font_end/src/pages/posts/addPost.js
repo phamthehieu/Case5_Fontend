@@ -17,9 +17,8 @@ export default function AddPost() {
 
     const handleAdd = async (values) => {
         let data = {...values};
-        console.log(data)
         dispatch(addPost(data));
-        navigate('/home')
+        navigate('/')
     }
     const [images, setImages] = useState([]);
     const [urls, setUrls] = useState([]);

@@ -23,14 +23,15 @@ function App() {
            {/*</Route>*/}
            {/*{user !== 'User not found' ?*/}
                <Route path={'home'} element={<Home/>}/>
-           :
-               // <Route path={'*'} element={<Auth/>}>
+           {/*:*/}
+           {/*    <Route path={'*'} element={<Auth/>}>*/}
                    <Route path={''} element={<ListPost/>}/>
                    <Route path={'add-post'} element={<AddPost/>}/>
-                   <Route path={'edit-post/:idPost'} element={<EditPost/>}/>
-                   <Route path={'*'} element={<Login/>}/>
-                   <Route path={'register'} element={<Register/>}/>
-               </Route>
+                   <Route path={`edit-post/:idPost`} element={<EditPost/>}/>
+                   {/*<Route path={'*'} element={<Login/>}/>*/}
+                   {/*<Route path={'register'} element={<Register/>}/>*/}
+               {/*</Route>*/}
+
            {/*}*/}
        </Routes>
       </>

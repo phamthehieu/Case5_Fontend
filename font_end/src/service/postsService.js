@@ -35,8 +35,13 @@ export const deletePost = createAsyncThunk(
 export const editPost = createAsyncThunk(
     'posts/editPost',
     async (data)=>{
-        console.log(data)
         const res = await customAxios.put('posts/'+ data.idPost,data);
         return data
     }
 )
+export const searchUser = createAsyncThunk(
+    "posts/searchUser",
+    async (data) => {
+        const res = await customAxios.get('/posts/find-by-userName?userName' + data)
+        return res.data;
+    })

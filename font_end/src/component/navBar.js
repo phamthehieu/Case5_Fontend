@@ -1,11 +1,16 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch } from "react-redux";
+import {searchUser} from "../service/postsService";
 
 export default function NavBar() {
+    const dispatch = useDispatch();
     const navigate = useNavigate()
     const logOut = () => {
         localStorage.clear()
         navigate('/')
+    }
+     const handleSearch = (values) => {
+         dispatch(searchUser(values.search))
     }
     return (
         <>
@@ -26,7 +31,14 @@ export default function NavBar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active" style={{marginLeft: '10px', marginTop: '5px', width: '300px'}}>
-                            <input className="form-control mr-sm-2" type="search" placeholder="Tìm Kiếm Trên Facebook"
+                            <input
+                                initialValues={{
+                                    search: ''
+                                }}
+                                onSubmit={(values) => {
+                                    handleSearch(values)
+                                }}
+                                className="form-control mr-sm-2" type="search" name={'search'} placeholder="Tìm Kiếm Trên Facebook"
                                    style={{borderRadius: '20px'}}/>
                         </li>
                         <li className="nav-item active" style={{marginLeft: '150px'}}>

@@ -33,7 +33,7 @@ export default function EditPost() {
     const handleEdit = async (values) => {
         let newPost = {...values};
         await dispatch(editPost(newPost));
-        await navigate('/home')
+        await navigate('/')
     }
     const [images, setImages] = useState([]);
     const [urls, setUrls] = useState([]);

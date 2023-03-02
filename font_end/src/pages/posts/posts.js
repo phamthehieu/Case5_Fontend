@@ -7,7 +7,7 @@ import swal from 'sweetalert'
 
 
 export default function ListPost(){
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -32,7 +32,6 @@ export default function ListPost(){
                             <th scope="col">Time</th>
                             <th scope="col">Image</th>
                             <th scope="col">UserName</th>
-                            <th scope="col">Friend</th>
                             <th colSpan={2}>Action</th>
                         </tr>
                         </thead>
@@ -45,18 +44,11 @@ export default function ListPost(){
                                 <th scope="col">{item.time}</th>
                                 <th scope="col"><img src={item.image} style={{height:100}} alt=""/></th>
                                 <th scope="col">{item.userName}</th>
-                                <th scope="col">{item.idFriend}</th>
-
                                 <th>
-                                    <Link to={`edit-post/${item.id}`}><button className="btn btn-outline-success" style={{marginRight: 10}}>
+                                    <Link to={`edit-post/${item.idPost}`}><button className="btn btn-outline-success" style={{marginRight: 10}}>
                                         <i className="fa-solid fa-pen-to-square"></i></button></Link>
                                     <button className="btn btn-outline-danger" onClick={() => {
-                                        dispatch(deletePost(item.id)).then(()=>{
-                                            dispatch(getPost()).then(()=>{
-                                                navigate('/home')
-                                            })
 
-                                        })
                                         swal({
                                             title: "Are you sure?",
                                             text: "Once deleted, you will not be able to recover this imaginary file!",
@@ -70,6 +62,11 @@ export default function ListPost(){
                                                     swal("Poof! Your imaginary file has been deleted!", {
                                                         icon: "success",
                                                     });
+                                                    dispatch(deletePost(item.idPost)).then(()=>{
+                                                        dispatch(getPost()).then(()=>{
+                                                        })
+
+                                                    })
                                                 } else {
                                                     swal("Your imaginary file is safe!");
                                                 }
