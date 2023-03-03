@@ -15,7 +15,6 @@ export default function Home() {
     useEffect(() => {
         dispatch(getAllPosts())
     }, [])
-    console.log(posts)
     return (
         <>
             <div className="row">

@@ -13,6 +13,7 @@ import ListReceiveFriends from "./pages/friends/listReceiveFriends";
 import ListAddFriends from "./pages/friends/listAddFriends";
 import ListFriends from "./pages/friends/listFriends";
 import ListSendFriends from "./pages/friends/listSendFriends";
+import EditPost from "./pages/users/editPost";
 
 function App() {
     const user = useSelector(state => {
@@ -29,6 +30,7 @@ function App() {
                     <>
                         <Route path={'home'} element={<Home/>}/>
                         <Route path={'profile/:id'} element={<Profile/>}/>
+                        <Route path={'edit-post/:id'} element={<EditPost/>}/>
                         <Route path={'friends/:id'} element={<FriendsPage/>}>
                             <Route path={''} element={<ListReceiveFriends/>}/>
                             <Route path={'list-send-friend/:xid'} element={<ListSendFriends/>}/>

@@ -22,3 +22,24 @@ export const getAllPosts = createAsyncThunk (
         return res.data;
     }
 )
+export const deletePosts = createAsyncThunk (
+    'posts/findAllPosts',
+    async (data) => {
+        const res = await customAxios.delete('posts/'+data)
+        return res.data;
+    }
+)
+export const getPost = createAsyncThunk (
+    'posts/findByIdPost',
+    async (data) => {
+        const res = await customAxios.get('posts/find-by-id/'+data)
+        return res.data;
+    }
+)
+export const editPost = createAsyncThunk (
+    'post/editPost',
+    async (data) => {
+        const res = await customAxios.put('posts/'+data.idPost, data)
+        return res.data;
+    }
+)

@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {editPassword, editProfile, getProfileUser, profileUser} from "../../service/usersService";
@@ -8,8 +8,7 @@ import swal from "sweetalert";
 import * as Yup from "yup";
 import NavBar from "../../component/navBar";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import * as events from "events";
-import {addPosts, getPostUser} from "../../service/postService";
+import {addPosts, deletePosts, getPost, getPostUser} from "../../service/postService";
 
 const SignupSchema = Yup.object().shape({
     newPassword: Yup.string()
@@ -41,12 +40,11 @@ export default function Profile() {
         let data = state.posts.listPostsUser
         data.map(item => {
             if (item.idUser == id) {
-               a.push(item)
+                a.push(item)
             }
         })
         return a;
     })
-    console.log(posts)
     let profile = useSelector(state => {
         if (state.users.profileUser.user !== undefined && state.users.profileUser.user.length === 2) {
             return state.users.profileUser.user[1]
@@ -92,16 +90,20 @@ export default function Profile() {
         let data = {...events}
         data.imagePost = url;
         data.time = time
-        console.log(data)
         await dispatch(addPosts(data))
         window.location.reload()
+    }
+    const handleDelete = async (idPost) => {
+        dispatch(deletePosts(idPost)).then(() => (
+            dispatch(profileUser(id)).then(() => {
+                window.location.reload()
+            })
+        ))
     }
     useEffect(() => {
         if (idCheck == id) {
             dispatch(getPostUser(id))
         }
-
-
     }, [])
     useEffect(() => {
         if (idCheck == id) {
@@ -216,7 +218,7 @@ export default function Profile() {
                                                     }}>
                                                         <div className="row">
                                                             <div className="col-12" style={{fontSize: '20px'}}>
-                                                                <b>{user!== undefined && user.fullName}</b>
+                                                                <b>{user !== undefined && user.fullName}</b>
                                                             </div>
                                                             <div className="col-12"
                                                                  style={{fontSize: '12px'}}>
@@ -359,7 +361,7 @@ export default function Profile() {
                                                         }}>
                                                             <div className="row">
                                                                 <div className="col-12" style={{fontSize: '20px'}}>
-                                                                    <b>{user!== undefined && user.fullName}</b>
+                                                                    <b>{user !== undefined && user.fullName}</b>
                                                                 </div>
                                                                 <div className="col-12"
                                                                      style={{fontSize: '12px'}}>
@@ -505,7 +507,7 @@ export default function Profile() {
                                                             }}>
                                                                 <div className="row">
                                                                     <div className="col-12" style={{fontSize: '20px'}}>
-                                                                        <b>{user!== undefined && user.fullName}</b>
+                                                                        <b>{user !== undefined && user.fullName}</b>
                                                                     </div>
                                                                     <div className="col-12"
                                                                          style={{fontSize: '12px'}}>
@@ -841,16 +843,19 @@ export default function Profile() {
                                                                         <div className="form-group row">
                                                                             <div className="row">
                                                                                 <div className="col-2">
-                                                                                    <img src={user!== undefined && user.image} width={'50px'}
-                                                                                         height={'50px'}
-                                                                                         style={{borderRadius: '100%'}}
-                                                                                         alt=""/>
+                                                                                    <img
+                                                                                        src={user !== undefined && user.image}
+                                                                                        width={'50px'}
+                                                                                        height={'50px'}
+                                                                                        style={{borderRadius: '100%'}}
+                                                                                        alt=""/>
                                                                                 </div>
                                                                                 <div className="col-10">
                                                                                     <div className="row">
                                                                                         <div className="col-12"
                                                                                              style={{marginTop: '5px'}}>
-                                                                                            <b>{user!== undefined && user.fullName}</b></div>
+                                                                                            <b>{user !== undefined && user.fullName}</b>
+                                                                                        </div>
                                                                                         <div className="col-12">
                                                                                             <Field as="select"
                                                                                                    style={{borderRadius: '10px'}}
@@ -940,19 +945,58 @@ export default function Profile() {
                                                                          marginTop: '15px'
                                                                      }}/>
                                                             </div>
-                                                            <div className="col-8" style={{
+                                                            <div className="col-10" style={{
                                                                 width: '50px',
                                                                 height: '50px',
                                                                 textAlign: 'left',
                                                                 marginTop: '15px'
                                                             }}>
                                                                 <div className="row">
-                                                                    <div className="col-12" style={{fontSize: '20px'}}>
-                                                                        <b>{user!== undefined && user.fullName}</b>
+                                                                    <div className="col-10">
+                                                                        <div className="row">
+                                                                            <div className="col-12"
+                                                                                 style={{fontSize: '20px'}}>
+                                                                                <b>{user !== undefined && user.fullName}</b>
+                                                                            </div>
+                                                                            <div className="col-12"
+                                                                                 style={{fontSize: '12px'}}>
+                                                                                <b>{item.time}</b>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div className="col-12"
-                                                                         style={{fontSize: '12px'}}>
-                                                                        <b>{item.time}</b>
+                                                                    <div className="col-2">
+                                                                        <div className="row">
+                                                                            <div className="col-8">
+                                                                                <button type="submit"
+                                                                                        className="ml-3 btn btn-danger"
+                                                                                        onClick={() => {
+                                                                                            swal({
+                                                                                                title: "Are you sure?",
+                                                                                                text: "Once deleted, you will not be able to recover this imaginary file!",
+                                                                                                icon: "warning",
+                                                                                                buttons: true,
+                                                                                                dangerMode: true,
+                                                                                            })
+                                                                                                .then((willDelete) => {
+                                                                                                    if (willDelete) {
+                                                                                                        swal("Poof! Your imaginary file has been deleted!", {
+                                                                                                            icon: "success",
+                                                                                                        }).then(() => {
+                                                                                                            handleDelete(item.idPost).then()
+                                                                                                        });
+                                                                                                    } else {
+                                                                                                        swal("Your imaginary file is safe!")
+                                                                                                    }
+                                                                                                });
+                                                                                        }}>Delete
+                                                                                </button>
+                                                                            </div>
+                                                                            <div className="col-4">
+                                                                                <Link to={'/edit-post/'+item.idPost} className="btn btn-primary">
+                                                                                    edit
+                                                                                </Link>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

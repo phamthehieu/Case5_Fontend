@@ -1,8 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getAllPosts, getPostUser} from "../../service/postService";
+import {getAllPosts, getPost, getPostUser} from "../../service/postService";
 const initialState = {
     listPostsUser: [],
-    listAllPosts: []
+    listAllPosts: [],
+    post: []
 }
 const postSlice = createSlice({
     name: 'posts',
@@ -13,6 +14,9 @@ const postSlice = createSlice({
         })
         builder.addCase(getAllPosts.fulfilled, (state, action) => {
             state.listAllPosts = action.payload
+        })
+        builder.addCase(getPost.fulfilled, (state, action) => {
+            state.post = action.payload
         })
     }
 })
