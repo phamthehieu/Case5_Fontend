@@ -1,4 +1,5 @@
 body {
+  background-color: rgb(228, 230, 235);
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -11,3 +12,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input::file-selector-button {
+  font-weight: bold;
+  color: dodgerblue;
+  border: thin solid grey;
+  border-radius: 3px;
+}
+
+
